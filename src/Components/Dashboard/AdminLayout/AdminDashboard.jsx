@@ -1,86 +1,51 @@
 import React, { useMemo, useState } from "react";
 import StatsCards from "./admin/StatsCard";
 import UsersTable from "./UsersTable";
+import { useGetDasboardQuery } from "../../../Redux/feature/auth/authapi";
 
 export default function AdminDashboard() {
   const [search, setSearch] = useState("");
 
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Ahmed Hassan",
-      email: "ahmed.hassan@example.com",
-      date: "Aug 30, 2025",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "Fatima Ali",
-      email: "fatima.ali@example.com",
-      date: "Aug 30, 2025",
-      status: "Active",
-    },
-    {
-      id: 3,
-      name: "Omar Ibrahim",
-      email: "omar.ibrahim@example.com",
-      date: "Aug 30, 2025",
-      status: "Active",
-    },
-    {
-      id: 4,
-      name: "Zahra Hussein",
-      email: "zahra.hussein@example.com",
-      date: "Aug 30, 2025",
-      status: "Blocked",
-    },
-    {
-      id: 5,
-      name: "Yusuf Rahman",
-      email: "yusuf.rahman@example.com",
-      date: "Aug 30, 2025",
-      status: "Blocked",
-    },
-  ]);
+  const { data: totalData, isLoading } = useGetDasboardQuery();
 
-  // Block / Unblock
-  const toggleUserStatus = (id) => {
-    setUsers((prev) =>
-      prev.map((user) =>
-        user.id === id
-          ? {
-              ...user,
-              status: user.status === "Active" ? "Blocked" : "Active",
-            }
-          : user
-      )
-    );
-  };
+  // ✅ SAFE DEFAULT
+  const users = totalData?.users || [];
 
-  // 🔍 Search filter
+  // ✅ Map API users to table-friendly users
+  const mappedUsers = useMemo(() => {
+    return users.map((user) => ({
+      id: user.user_id,
+      name: user.full_name || "N/A",
+      email: user.email,
+      date: new Date(user.registration_date).toLocaleDateString(),
+      status: user.is_blocked ? "Blocked" : "Active",
+    }));
+  }, [users]);
+
+  // 🔍 Search filter (SAFE)
   const filteredUsers = useMemo(() => {
-    return users.filter(
+    return mappedUsers.filter(
       (user) =>
         user.name.toLowerCase().includes(search.toLowerCase()) ||
         user.email.toLowerCase().includes(search.toLowerCase())
     );
-  }, [users, search]);
+  }, [mappedUsers, search]);
 
-  // 📊 Stats
-  const total = users.length;
-  const active = users.filter((u) => u.status === "Active").length;
-  const blocked = users.filter((u) => u.status === "Blocked").length;
+  if (isLoading) {
+    return <div className="p-6">Loading...</div>;
+  }
 
   return (
-    <div className="min-h-screen p-6 ">
-      <StatsCards total={total} active={active} blocked={blocked} />
-
-      <UsersTable
-        users={filteredUsers}
-        onToggleStatus={toggleUserStatus}
-        search={search}
-        setSearch={setSearch}
+    <div className="min-h-screen p-6 bg-gray-50">
+      {/* 📊 Stats */}
+      <StatsCards
+        total={totalData?.total_users || 0}
+        active={totalData?.active_users || 0}
+        blocked={totalData?.blocked_users || 0}
       />
+
+      {/* 👥 Users Table */}
+      <UsersTable users={filteredUsers} search={search} setSearch={setSearch} />
     </div>
   );
 }

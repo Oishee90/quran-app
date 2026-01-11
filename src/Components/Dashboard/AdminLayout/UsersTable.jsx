@@ -21,11 +21,11 @@ const UsersTable = ({ users, onToggleStatus, search, setSearch }) => {
         <table className="w-full text-base  rounded-xl bg-[#f5f5f5]   ">
           <thead className="">
             <tr>
-              <th className="px-4 py-4 text-left">Name</th>
-              <th className="px-4 py-4 text-left">Email</th>
-              <th className="px-4 py-4 text-left">Registration Date</th>
-              <th className="px-4 py-4 text-left">Status</th>
-              <th className="px-4 py-4 text-left">Action</th>
+              <th className="px-4 py-6 text-left">Name</th>
+              <th className="px-4 py-6 text-left">Email</th>
+              <th className="px-4 py-6 text-left">Registration Date</th>
+              <th className="px-4 py-6 text-left">Status</th>
+              <th className="px-4 py-6 text-left">Action</th>
             </tr>
           </thead>
 

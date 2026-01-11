@@ -5,29 +5,49 @@ import logo from "../../assets/logo.png";
 import bg from "../../assets/kev-login.png";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import { useSuperAdminLoginMutation } from "../../Redux/feature/auth/authapi";
+import { useDispatch } from "react-redux";
+import { userSignUp } from "../../Redux/feature/auth/authSlice";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrorMessage("");
+  const [superAdminLogin, { isLoading }] = useSuperAdminLoginMutation();
 
-    if (email === "admin@gmail.com" && password === "admin@gmail.com") {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const loginData = {
+        email,
+        password,
+      };
+
+      const res = await superAdminLogin(loginData).unwrap();
+      console.log(res.access);
+      dispatch(
+        userSignUp({
+          user: res.user,
+          access_token: res.access,
+          refreshToken: res.refresh,
+        })
+      );
+
       toast.success("Login Successful!");
 
       setTimeout(() => {
-        navigate("/");
-      }, 1500); // navigate after 1.5sec (you can change timing)
-    } else {
-      toast.error("❌ Invalid email or password.");
+        navigate("/"); // redirect to dashboard
+      }, 1500);
+    } catch (err) {
+      toast.error(err?.data?.message || "Invalid email or password.");
     }
   };
 

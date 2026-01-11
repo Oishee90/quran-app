@@ -24,7 +24,7 @@ import UserManagementTable from "./Components/Dashboard/AdminLayout/UserManageme
 import UserFeedbackTable from "./Components/Dashboard/AdminLayout/UserFeedbackTable";
 import Settings from "./Components/Dashboard/AdminLayout/Settings/Settings";
 import { Provider } from "react-redux";
-import { store } from "../Redux/store";
+import { store } from "./Redux/store";
 
 const router = createBrowserRouter([
   {
