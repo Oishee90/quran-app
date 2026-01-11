@@ -5,7 +5,7 @@ export const authapi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     superAdminLogin: builder.mutation({
       query: (data) => ({
-        url: "/api/v1/superadmin-login/",
+        url: "/api/v1/auth/admin-login/",
         method: "POST",
         body: data,
       }),

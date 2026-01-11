@@ -4,7 +4,6 @@ import storage from "redux-persist/lib/storage";
 import { apiSlice } from "./api/apiSlice";
 import { authReducer } from "./feature/auth/authSlice";
 
-
 const persistConfig = {
   key: "root",
   storage,
@@ -34,7 +33,7 @@ const store = configureStore({
     }).concat(apiSlice.middleware),
 });
 
-const persistor = persistStore(store); 
+const persistor = persistStore(store);
 
 //  Final export
 export { store, persistor };
