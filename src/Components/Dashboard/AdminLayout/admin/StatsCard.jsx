@@ -25,20 +25,22 @@ const StatsCards = ({ total, active, blocked }) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 ">
       {cards.map((card, i) => (
         <div
           key={i}
-          className="flex items-center justify-between p-5 bg-white border shadow-sm rounded-xl"
+          className="flex items-center justify-between p-5 bg-white border border-[#145eff3f] shadow-sm rounded-xl"
         >
           {/* Left */}
-          <div>
-            <p className="text-sm text-gray-500">{card.title}</p>
-            <h3 className="text-2xl font-semibold">{card.count}</h3>
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-xl text-[#000000] font-medium ">{card.title}</p>
+            <h3 className="text-xl text-[#000000] font-medium ">
+              {card.count}
+            </h3>
           </div>
 
           {/* Right Icon */}
-          <div className={`p-3 rounded-lg ${card.bg}`}>
+          <div className={`py-7 px-14 rounded-lg ${card.bg}`}>
             <img
               src={card.icon}
               alt={card.title}

@@ -43,7 +43,7 @@ export default function AdminDashboard() {
     },
   ]);
 
-  // 🔁 Block / Unblock
+  // Block / Unblock
   const toggleUserStatus = (id) => {
     setUsers((prev) =>
       prev.map((user) =>
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
   const blocked = users.filter((u) => u.status === "Blocked").length;
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div className="min-h-screen p-6 ">
       <StatsCards total={total} active={active} blocked={blocked} />
 
       <UsersTable

@@ -79,20 +79,7 @@ const TermsCondition = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg">
-      {/* Toolbar + Edit Button */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 inter">
-          Terms & Conditions
-        </h1>
-        <button
-          onClick={handleUpdate}
-          className="px-4 py-2 bg-[#DF951F] hover:bg-[#c67a10] text-white text-sm font-medium rounded-lg transition"
-        >
-       Save
-        </button>
-      </div>
-
+    <div className="p-6 bg-white rounded-lg roboto">
       {/* Jodit Editor */}
       <div className="overflow-hidden border border-gray-200 rounded-lg">
         <JoditEditor
@@ -102,6 +89,16 @@ const TermsCondition = () => {
           onBlur={(newContent) => setContent(newContent)}
           className="jodit-editor-custom"
         />
+      </div>
+      {/* Toolbar + Edit Button */}
+      <div className="flex items-center justify-between mt-6">
+        <h1 className="text-2xl font-bold text-gray-900 inter"></h1>
+        <button
+          onClick={handleUpdate}
+          className="px-7 py-2 bg-[#2658C4] hover:bg-[#2658C4] text-white text-sm font-medium rounded-lg transition"
+        >
+          Save
+        </button>
       </div>
     </div>
   );

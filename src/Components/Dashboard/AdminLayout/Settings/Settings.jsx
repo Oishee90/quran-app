@@ -1,61 +1,67 @@
 // src/components/settings/Settings.jsx
 import React, { useState } from "react";
-import { Globe, FileText, Shield } from "lucide-react";
-import GeneralTab from "./GeneralTab";
+import { ArrowLeft } from "lucide-react";
 import TermsCondition from "./TermsCondition";
 import Privacy from "./Privacy";
-import { MdOutlineShield } from "react-icons/md";
 
 const Settings = () => {
-  const [activeTab, setActiveTab] = useState("general");
+  const [activeTab, setActiveTab] = useState("privacy");
 
   return (
-    <div className="min-h-screen p-6 outfit">
-      <div className="">
-        {/* Header */}
-        <h1 className="mb-6 text-2xl font-semibold text-gray-800">Settings</h1>
-
-        {/* Tabs */}
-        <div className="flex items-center gap-8 mb-8 border-b border-gray-200">
-          <button
-            onClick={() => setActiveTab("general")}
-            className={`flex items-center gap-2 pb-3 text-sm font-medium transition-colors inter ${
-              activeTab === "general"
-                ? "text-[#DF951F] border-b-2 border-[#DF951F]"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            <Globe className="w-4 h-4" />
-            General
-          </button>
-
+    <div className="min-h-screen px-6 roboto ">
+      {/* Top Tabs */}
+      <div className="relative">
+        <div className="grid grid-cols-2">
+          {/* Terms & Conditions */}
           <button
             onClick={() => setActiveTab("terms")}
-            className={`flex items-center gap-2 pb-3 text-xs md:text-sm font-medium transition-colors inter ${
-              activeTab === "terms"
-                ? "text-[#DF951F] border-b-2 border-[#DF951F]"
-                : "text-gray-500 hover:text-gray-700"
+            className={`relative py-4 text-lg font-medium text-left ${
+              activeTab === "terms" ? "text-[#000000]" : "text-gray-500"
             }`}
           >
-            <FileText className="text-xl" />
-            Terms And condition
+            Terms & Conditions
+            {/* Border */}
+            <span
+              className={`absolute left-0 bottom-0 w-full ${
+                activeTab === "terms"
+                  ? "h-[4px] bg-[#2658C4]"
+                  : "h-[4px] bg-[#D9D9D9]"
+              }`}
+            />
           </button>
 
+          {/* Privacy & Policy */}
           <button
             onClick={() => setActiveTab("privacy")}
-            className={`flex items-center gap-2 pb-3 text-xs md:text-sm  font-medium transition-colors inter ${
-              activeTab === "privacy"
-                ? "text-[#DF951F] border-b-2 border-[#DF951F]"
-                : "text-gray-500 hover:text-gray-700"
+            className={`relative py-4 text-lg font-medium text-right ${
+              activeTab === "privacy" ? "text-black" : "text-gray-500"
             }`}
           >
-            <Shield className="text-xl" />
-            Privacy Policy
+            Privacy & Policy
+            {/* Border */}
+            <span
+              className={`absolute left-0 bottom-0 w-full ${
+                activeTab === "privacy"
+                  ? "h-[4px] bg-[#2658C4]"
+                  : "h-[4px] bg-[#D9D9D9]"
+              }`}
+            />
           </button>
         </div>
+      </div>
 
-        {/* Tab Content */}
-        {activeTab === "general" && <GeneralTab />}
+      {/* Page Title */}
+      <div className="flex items-center gap-2 py-4 mt-9 mb-9">
+        <ArrowLeft className="w-4 h-4 text-gray-600 cursor-pointer" />
+        <h2 className="text-2xl font-medium text-[#333333]">
+          {activeTab === "terms"
+            ? "Terms & Conditions Edit"
+            : "Privacy & Policy Edit"}
+        </h2>
+      </div>
+
+      {/* Content */}
+      <div className="px-6">
         {activeTab === "terms" && <TermsCondition />}
         {activeTab === "privacy" && <Privacy />}
       </div>

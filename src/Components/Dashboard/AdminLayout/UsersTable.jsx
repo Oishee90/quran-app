@@ -1,8 +1,10 @@
 import { FaBan, FaLock } from "react-icons/fa";
-
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { MdBlockFlipped } from "react-icons/md";
+import { IoLockClosedOutline } from "react-icons/io5";
 const UsersTable = ({ users, onToggleStatus, search, setSearch }) => {
   return (
-    <div className="mt-6 overflow-hidden rounded-xl">
+    <div className="mt-6 overflow-hidden rounded-xl poppins">
       {/* Search */}
       <div className="py-4 ">
         <input
@@ -10,65 +12,76 @@ const UsersTable = ({ users, onToggleStatus, search, setSearch }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by email or name"
-          className="w-full px-4 py-2 border border-[#a8a7a794] rounded-lg outline-none focus:ring-1 focus:ring-blue-400"
+          className="w-full px-4 py-2 border border-[#9E9D9D] rounded-xl outline-none focus:ring-1 focus:ring-[#777575] placeholder:text-sm"
         />
       </div>
 
       {/* Table */}
-      <table className="w-full text-sm rounded-xl bg-[#9e9d9d36] ">
-        <thead className="text-gray-600 ">
-          <tr>
-            <th className="px-4 py-3 text-left">Name</th>
-            <th className="px-4 py-3 text-left">Email</th>
-            <th className="px-4 py-3 text-left">Registration Date</th>
-            <th className="px-4 py-3 text-left">Status</th>
-            <th className="px-4 py-3 text-center">Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {users.length === 0 ? (
+      <div className="border rounded-xl border-[#9E9D9D]">
+        <table className="w-full text-base  rounded-xl bg-[#f5f5f5]   ">
+          <thead className="">
             <tr>
-              <td colSpan="5" className="py-6 text-center text-gray-400">
-                No users found
-              </td>
+              <th className="px-4 py-4 text-left">Name</th>
+              <th className="px-4 py-4 text-left">Email</th>
+              <th className="px-4 py-4 text-left">Registration Date</th>
+              <th className="px-4 py-4 text-left">Status</th>
+              <th className="px-4 py-4 text-left">Action</th>
             </tr>
-          ) : (
-            users.map((user) => (
-              <tr key={user.id} className="border-t">
-                <td className="px-4 py-3">{user.name}</td>
-                <td className="px-4 py-3">{user.email}</td>
-                <td className="px-4 py-3">{user.date}</td>
+          </thead>
 
-                <td className="px-4 py-3">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      user.status === "Active"
-                        ? "bg-green-100 text-green-600"
-                        : "bg-red-100 text-red-600"
-                    }`}
-                  >
-                    {user.status}
-                  </span>
-                </td>
-
-                <td className="px-4 py-3 text-center">
-                  <button
-                    onClick={() => onToggleStatus(user.id)}
-                    className="transition hover:scale-110"
-                  >
-                    {user.status === "Active" ? (
-                      <FaBan className="text-red-500" />
-                    ) : (
-                      <FaLock className="text-green-600" />
-                    )}
-                  </button>
+          <tbody className="bg-[#FFFFFF] ">
+            {users.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="py-6 text-center text-gray-400">
+                  No users found
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              users.map((user) => (
+                <tr
+                  key={user.id}
+                  className="border-t border-[#9C9C9C] text-base "
+                >
+                  <td className="px-4 py-6 rounded-b-xl">{user.name}</td>
+                  <td className="px-4 py-3">{user.email}</td>
+                  <td className="px-4 py-3">{user.date}</td>
+
+                  <td className="px-4 py-3">
+                    <span
+                      className={`px-3 py-1 text-xs  rounded-full font-medium ${
+                        user.status === "Active"
+                          ? "bg-[#D1F8C3]"
+                          : "bg-[#FFA9A9]"
+                      }`}
+                    >
+                      {user.status}
+                    </span>
+                  </td>
+
+                  <td className="flex items-center gap-4 px-4 py-3 rounded-b-xl">
+                    <button
+                      onClick={() => onToggleStatus(user.id)}
+                      className="transition hover:scale-110"
+                    >
+                      {user.status === "Active" ? (
+                        <MdBlockFlipped className="text-[#FE0000] w-6 h-6" />
+                      ) : (
+                        <IoLockClosedOutline className="text-[#2DA601] w-6 h-6" />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => onToggleStatus(user.id)}
+                      className="transition hover:scale-110"
+                    >
+                      <RiDeleteBin6Line className="text-[#FE0000] w-6 h-6" />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

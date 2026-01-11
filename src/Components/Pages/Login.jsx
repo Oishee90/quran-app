@@ -32,9 +32,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-[#f9f6f2]">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-[#f6fbff]">
       <Toaster></Toaster>
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg px-8 pt-6 pb-8 mb-4 bg-white rounded-lg shadow-md border border-[#87c5f8b0]">
         {/* Logo */}
         <div className="flex justify-center mb-4">
           <img src={logo} alt="Logo" className="" />
@@ -122,7 +122,7 @@ const Login = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 font-medium text-white transition duration-200 bg-[#DF951F] rounded-lg hover:bg-orange-600"
+            className="w-full py-3 font-medium text-white transition duration-200 bg-[#2658C4] rounded-lg hover:bg-[#194197]"
           >
             Log In
           </button>
