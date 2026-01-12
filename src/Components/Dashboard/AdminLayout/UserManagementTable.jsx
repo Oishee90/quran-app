@@ -7,12 +7,12 @@ export default function UserManagementTable() {
   const [filterStatus, setFilterStatus] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading } = useGetDasboardQuery();
+  const { data, isLoading, refetch } = useGetDasboardQuery();
 
-  // 🔢 USERS PER PAGE
+  //  USERS PER PAGE
   const USERS_PER_PAGE = 5;
 
-  // 🧠 Normalize API users
+  // Normalize API users
   const users = useMemo(() => {
     if (!data?.users) return [];
 
@@ -56,7 +56,7 @@ export default function UserManagementTable() {
     startIndex + USERS_PER_PAGE
   );
 
-  // 🔄 Reset page on filter/search change
+  //  Reset page on filter/search change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, filterStatus]);
@@ -71,7 +71,7 @@ export default function UserManagementTable() {
 
   return (
     <div className="min-h-screen p-6 pippins bg-gray-50">
-      {/* 🔘 Filter Tabs */}
+      {/* Filter Tabs */}
       <div className="flex gap-3 mb-4">
         {["All", "Active", "Blocked"].map((status) => (
           <button
@@ -93,14 +93,15 @@ export default function UserManagementTable() {
         ))}
       </div>
 
-      {/* 📋 Users Table */}
+      {/*  Users Table */}
       <UsersTable
         users={paginatedUsers}
         search={search}
         setSearch={setSearch}
+        refetch = {refetch}
       />
 
-      {/* 🔢 Pagination */}
+      {/*  Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-end gap-2 mt-6">
           <button

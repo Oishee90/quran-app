@@ -8,12 +8,12 @@ const authSlice = createSlice({
   },
   reducers: {
     userSignUp: (state, action) => {
-      console.log(
-        "This is from authSlice:",
-        action.payload.schoolname,
-        action.payload.access_token,
-        action.payload.user
-      );
+      // console.log(
+      //   "This is from authSlice:",
+      //   action.payload.schoolname,
+      //   action.payload.access_token,
+      //   action.payload.user
+      // );
 
       state.user = action.payload.user || state.user;
       state.access_token = action.payload.access_token || state.access_token;

@@ -5,7 +5,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     // Try to get token from Redux state
     const token = getState().auth?.access_token || null;
-    console.log(token);
+    // console.log(token);
     // If token not in state, retrieve from local storage
     if (token) {
       headers.set("authorization", `Bearer ${token}`);

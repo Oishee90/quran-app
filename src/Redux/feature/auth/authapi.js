@@ -37,6 +37,13 @@ export const authapi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
+     deleteUser: builder.mutation({
+      query: (body) => ({
+        url: "/api/v1/admin/users/update/",
+        method: "DELETE",
+        body, // { email: "user@test.com" }
+      }),
+    }),
   }),
 });
 
@@ -46,4 +53,5 @@ export const {
   useGetMiscByNameQuery,
   useUpdateMiscByNameMutation,
   useUpdateUserStatusMutation,
+  useDeleteUserMutation
 } = authapi;

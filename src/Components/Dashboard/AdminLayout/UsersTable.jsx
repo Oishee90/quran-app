@@ -1,35 +1,114 @@
-import { FaBan, FaLock } from "react-icons/fa";
-import { RiDeleteBin6Line } from "react-icons/ri";
+/* eslint-disable react/prop-types */
+import Swal from "sweetalert2";
 import { MdBlockFlipped } from "react-icons/md";
 import { IoLockClosedOutline } from "react-icons/io5";
-const UsersTable = ({ users, onToggleStatus, search, setSearch }) => {
+import {
+  useDeleteUserMutation,
+  useGetDasboardQuery,
+  useUpdateUserStatusMutation,
+} from "../../../Redux/feature/auth/authapi";
+import { RiDeleteBin6Line } from "react-icons/ri";
+const UsersTable = ({ users, search, setSearch }) => {
+  const [updateUserStatus] = useUpdateUserStatusMutation();
+  const [deleteUser] = useDeleteUserMutation();
+  const { data, isLoading, refetch } = useGetDasboardQuery();
+  //  Block / Unblock handler
+  const handleBlockUser = async (user) => {
+    const isBlocking = user.status === "Active";
+
+    const result = await Swal.fire({
+      title: isBlocking ? "Block User?" : "Unblock User?",
+      text: isBlocking
+        ? "Are you sure you want to block this user?"
+        : "Are you sure you want to activate this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: isBlocking ? "#d33" : "#33c426",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await updateUserStatus({
+        email: user.email,
+        is_blocked: isBlocking,
+      }).unwrap();
+      refetch();
+      Swal.fire({
+        icon: "success",
+        title: isBlocking ? "User Blocked" : "User Activated",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Action Failed",
+        text: "Something went wrong",
+      });
+    }
+  };
+  const handleDeleteUser = async (user) => {
+    const result = await Swal.fire({
+      title: "Delete User?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, Delete",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await deleteUser({ email: user.email }).unwrap();
+      refetch();
+
+      Swal.fire({
+        icon: "success",
+        title: "User Deleted",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Delete Failed",
+        text: "Something went wrong",
+      });
+    }
+  };
+
   return (
     <div className="mt-6 overflow-hidden rounded-xl poppins">
-      {/* Search */}
-      <div className="py-4 ">
+      {/* 🔍 Search */}
+      <div className="py-4">
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by email or name"
-          className="w-full px-4 py-2 border border-[#9E9D9D] rounded-xl outline-none focus:ring-1 focus:ring-[#777575] placeholder:text-sm"
+          className="w-full px-4 py-2 border outline-none rounded-xl"
         />
       </div>
 
-      {/* Table */}
-      <div className="border rounded-xl border-[#9E9D9D]">
-        <table className="w-full text-base  rounded-xl bg-[#f5f5f5]   ">
-          <thead className="">
+      {/* 📋 Table */}
+      <div className="border rounded-xl">
+        <table className="w-full bg-[#f5f5f5]">
+          <thead>
             <tr>
-              <th className="px-4 py-6 text-left">Name</th>
-              <th className="px-4 py-6 text-left">Email</th>
-              <th className="px-4 py-6 text-left">Registration Date</th>
-              <th className="px-4 py-6 text-left">Status</th>
-              <th className="px-4 py-6 text-left">Action</th>
+              <th className="px-4 py-4 text-left">Name</th>
+              <th className="px-4 py-4 text-left">Email</th>
+              <th className="px-4 py-4 text-left">Registration Date</th>
+              <th className="px-4 py-4 text-left">Status</th>
+              <th className="px-4 py-4 text-left">Action</th>
             </tr>
           </thead>
 
-          <tbody className="bg-[#FFFFFF] ">
+          <tbody className="bg-white">
             {users.length === 0 ? (
               <tr>
                 <td colSpan="5" className="py-6 text-center text-gray-400">
@@ -38,17 +117,14 @@ const UsersTable = ({ users, onToggleStatus, search, setSearch }) => {
               </tr>
             ) : (
               users.map((user) => (
-                <tr
-                  key={user.id}
-                  className="border-t border-[#9C9C9C] text-base "
-                >
-                  <td className="px-4 py-6 rounded-b-xl">{user.name}</td>
+                <tr key={user.id} className="border-t">
+                  <td className="px-4 py-6">{user.name}</td>
                   <td className="px-4 py-3">{user.email}</td>
                   <td className="px-4 py-3">{user.date}</td>
 
                   <td className="px-4 py-3">
                     <span
-                      className={`px-3 py-1 text-xs  rounded-full font-medium ${
+                      className={`px-3 py-1 text-xs rounded-full font-medium ${
                         user.status === "Active"
                           ? "bg-[#D1F8C3]"
                           : "bg-[#FFA9A9]"
@@ -58,22 +134,22 @@ const UsersTable = ({ users, onToggleStatus, search, setSearch }) => {
                     </span>
                   </td>
 
-                  <td className="flex items-center gap-4 px-4 py-3 rounded-b-xl">
+                  <td className="flex items-center gap-2 px-4 py-3">
                     <button
-                      onClick={() => onToggleStatus(user.id)}
+                      onClick={() => handleBlockUser(user)}
                       className="transition hover:scale-110"
                     >
                       {user.status === "Active" ? (
-                        <MdBlockFlipped className="text-[#FE0000] w-6 h-6" />
+                        <MdBlockFlipped className="w-6 h-6 text-red-600" />
                       ) : (
-                        <IoLockClosedOutline className="text-[#2DA601] w-6 h-6" />
+                        <IoLockClosedOutline className="w-6 h-6 text-green-600" />
                       )}
                     </button>
                     <button
-                      onClick={() => onToggleStatus(user.id)}
+                      onClick={() => handleDeleteUser(user)}
                       className="transition hover:scale-110"
                     >
-                      <RiDeleteBin6Line className="text-[#FE0000] w-6 h-6" />
+                      <RiDeleteBin6Line className="w-6 h-6 text-red-600" />
                     </button>
                   </td>
                 </tr>
