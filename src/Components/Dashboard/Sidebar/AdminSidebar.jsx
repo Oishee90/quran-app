@@ -4,10 +4,13 @@ import logo from "../../../assets/logo.png";
 import { MdOutlineDashboard } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
+import { userLoggedOut } from "../../../Redux/feature/auth/authSlice";
+import { persistor } from "../../../Redux/store";
+import { useDispatch } from "react-redux";
 const AdminSidebar = ({ collapsed }) => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const dispatch = useDispatch();
   const isActive = (path) => location.pathname === path;
 
   const menuItem = (to, icon, label, active) => (
@@ -35,8 +38,10 @@ const AdminSidebar = ({ collapsed }) => {
   );
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    navigate("/login", { replace: true });
+    // Clear user data from localStorage
+    dispatch(userLoggedOut());
+    persistor.purge();
+    navigate("/login");
   };
 
   return (

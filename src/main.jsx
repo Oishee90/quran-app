@@ -25,6 +25,7 @@ import UserFeedbackTable from "./Components/Dashboard/AdminLayout/UserFeedbackTa
 import Settings from "./Components/Dashboard/AdminLayout/Settings/Settings";
 import { Provider } from "react-redux";
 import { store } from "./Redux/store";
+import { PrivateRoute } from "./routes/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -45,11 +46,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Root></Root>,
+    element: (
+      <PrivateRoute>
+        <Root></Root>
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
-        element: <AdminDashboard></AdminDashboard>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <AdminDashboard></AdminDashboard>{" "}
+          </PrivateRoute>
+        ),
       },
       // {
       //   path: "/content-moderation",
@@ -57,39 +67,78 @@ const router = createBrowserRouter([
       // },
       {
         path: "/quote-packs",
-        element: <QuotePack></QuotePack>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <QuotePack></QuotePack>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/edit-pack",
-        element: <EditPack></EditPack>,
+        element: (
+          <PrivateRoute>
+            <EditPack></EditPack>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/new-quote",
-        element: <NewQuote></NewQuote>,
+        element: (
+          <PrivateRoute>
+            <NewQuote></NewQuote>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/user-management",
-        element: <UserManagementTable></UserManagementTable>,
+        element: (
+          <PrivateRoute>
+            <UserManagementTable></UserManagementTable>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/user-feedback",
-        element: <UserFeedbackTable></UserFeedbackTable>,
+        element: (
+          <PrivateRoute>
+            <UserFeedbackTable></UserFeedbackTable>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/settings",
-        element: <Settings></Settings>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <Settings></Settings>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/terms",
-        element: <TermsCondition></TermsCondition>,
+        element: (
+          <PrivateRoute>
+            <TermsCondition></TermsCondition>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/payments",
-        element: <Payment></Payment>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <Payment></Payment>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/subscriptions",
-        element: <SubscriptionPlans></SubscriptionPlans>,
+        element: (
+          <PrivateRoute>
+            <SubscriptionPlans></SubscriptionPlans>
+          </PrivateRoute>
+        ),
       },
     ],
   },
