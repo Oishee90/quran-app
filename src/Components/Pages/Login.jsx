@@ -86,7 +86,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder=""
-              className="w-full px-4 py-3 transition border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="w-full px-4 py-3 transition border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
           </div>
@@ -105,7 +105,7 @@ const Login = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 pr-12 transition border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full px-4 py-3 pr-12 transition border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue -500 focus:border-transparent"
                 required
               />
               <button

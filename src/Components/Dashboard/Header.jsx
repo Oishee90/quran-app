@@ -1,34 +1,29 @@
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { MdDashboard } from "react-icons/md";
+import { FaUsers, FaCog } from "react-icons/fa";
 
 const Header = () => {
+  const location = useLocation();
+  const pathname = location.pathname;
+
+  let title = "Admin Dashboard";
+  let icon = <MdDashboard />;
+
+  if (pathname.startsWith("/user-management")) {
+    title = "User Management";
+    icon = <FaUsers />;
+  } else if (pathname.startsWith("/settings")) {
+    title = "Settings";
+    icon = <FaCog />;
+  } else if (pathname === "/admin" || pathname === "/") {
+    title = "Admin Dashboard";
+    icon = <MdDashboard />;
+  }
+
   return (
-    <div className="flex items-center justify-end py-6 px-6 bg-[#009038] dark:bg-[#374151]">
-
-      {/* Time + Date + Notification */}
-      <div className="flex items-center gap-6">
-
-        {/* Time & Date */}
-        <div className="flex flex-col leading-tight text-right">
-          <span className="text-sm font-medium text-[#4B5563] dark:text-gray-300">
-            05:00 PM
-          </span>
-          <span className="text-xs text-[#9CA3AF] dark:text-gray-400">
-            27 Sep 2025
-          </span>
-        </div>
-
-        {/* Notification Icon */}
-        <NavLink to="/notification">
-          <div className="relative cursor-pointer">
-            <IoMdNotificationsOutline className="text-[#E6A521] w-5 h-5" />
-
-            {/* Optional: Notification badge */}
-            <span className="absolute top-[-3px] right-[-3px] w-2 h-2 bg-[#E6A521] rounded-full"></span>
-          </div>
-        </NavLink>
-      </div>
-
+    <div className="flex items-center gap-2 text-lg font-semibold text-gray-800">
+      <span className="text-xl">{icon}</span>
+      <span>{title}</span>
     </div>
   );
 };
