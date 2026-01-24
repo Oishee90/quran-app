@@ -2,7 +2,7 @@ import Group from "../../../../assets/Group.png";
 import Active from "../../../../assets/active-user.png";
 import Block from "../../../../assets/block.png";
 
-const StatsCards = ({ total, active, blocked }) => {
+const StatsCards = ({ total, active, blocked, guest }) => {
   const cards = [
     {
       title: "Total Users",
@@ -22,10 +22,16 @@ const StatsCards = ({ total, active, blocked }) => {
       icon: Block,
       bg: "bg-[#D5E3FF]",
     },
+    {
+      title: "Guest Users",
+      count: guest,
+      icon: Group,
+      bg: "bg-[#D5E3FF]",
+    },
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 ">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-4 ">
       {cards.map((card, i) => (
         <div
           key={i}

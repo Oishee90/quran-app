@@ -52,7 +52,7 @@ const Settings = () => {
 
       {/* Page Title */}
       <div className="flex items-center gap-2 py-4 mt-9 mb-9">
-        <ArrowLeft className="w-4 h-4 text-gray-600 cursor-pointer" />
+        {/* <ArrowLeft className="w-4 h-4 text-gray-600 cursor-pointer" /> */}
         <h2 className="text-2xl font-medium text-[#333333]">
           {activeTab === "terms"
             ? "Terms & Conditions Edit"

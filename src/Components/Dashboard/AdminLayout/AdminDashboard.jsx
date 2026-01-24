@@ -42,6 +42,7 @@ export default function AdminDashboard() {
         total={totalData?.total_users || 0}
         active={totalData?.active_users || 0}
         blocked={totalData?.blocked_users || 0}
+        guest={totalData?.guest_users || 0}
       />
 
       {/* 👥 Users Table */}
