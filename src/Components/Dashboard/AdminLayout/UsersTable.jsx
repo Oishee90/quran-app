@@ -97,66 +97,68 @@ const UsersTable = ({ users, search, setSearch }) => {
 
       {/* 📋 Table */}
       <div className="border rounded-xl">
-        <table className="w-full bg-[#f5f5f5]">
-          <thead>
-            <tr>
-              <th className="px-4 py-4 text-left">Name</th>
-              <th className="px-4 py-4 text-left">Email</th>
-              <th className="px-4 py-4 text-left">Registration Date</th>
-              <th className="px-4 py-4 text-left">Status</th>
-              <th className="px-4 py-4 text-left">Action</th>
-            </tr>
-          </thead>
-
-          <tbody className="bg-white">
-            {users.length === 0 ? (
+        <div className="max-h-[420px] overflow-y-auto">
+          <table className="w-full bg-[#f5f5f5]">
+            <thead>
               <tr>
-                <td colSpan="5" className="py-6 text-center text-gray-400">
-                  No users found
-                </td>
+                <th className="px-4 py-4 text-left">Name</th>
+                <th className="px-4 py-4 text-left">Email</th>
+                <th className="px-4 py-4 text-left">Registration Date</th>
+                <th className="px-4 py-4 text-left">Status</th>
+                <th className="px-4 py-4 text-left">Action</th>
               </tr>
-            ) : (
-              users.map((user) => (
-                <tr key={user.id} className="border-t">
-                  <td className="px-4 py-6">{user.name}</td>
-                  <td className="px-4 py-3">{user.email}</td>
-                  <td className="px-4 py-3">{user.date}</td>
+            </thead>
 
-                  <td className="px-4 py-3">
-                    <span
-                      className={`px-3 py-1 text-xs rounded-full font-medium ${
-                        user.status === "Active"
-                          ? "bg-[#D1F8C3]"
-                          : "bg-[#FFA9A9]"
-                      }`}
-                    >
-                      {user.status}
-                    </span>
-                  </td>
-
-                  <td className="flex items-center gap-2 px-4 py-3">
-                    <button
-                      onClick={() => handleBlockUser(user)}
-                      className="transition hover:scale-110"
-                    >
-                      {user.status === "Active" ? (
-                        <MdBlockFlipped className="w-6 h-6 text-red-600" />
-                      ) : (
-                        <IoLockClosedOutline className="w-6 h-6 text-green-600" />
-                      )}
-                    </button>
-                    <button
-                      onClick={() => handleDeleteUser(user)}
-                      className="transition hover:scale-110"
-                    >
-                      <RiDeleteBin6Line className="w-6 h-6 text-red-600" />
-                    </button>
+            <tbody className="bg-white">
+              {users.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="py-6 text-center text-gray-400">
+                    No users found
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                users.map((user) => (
+                  <tr key={user.id} className="border-t">
+                    <td className="px-4 py-6">{user.name}</td>
+                    <td className="px-4 py-3">{user.email}</td>
+                    <td className="px-4 py-3">{user.date}</td>
+
+                    <td className="px-4 py-3">
+                      <span
+                        className={`px-3 py-1 text-xs rounded-full font-medium ${
+                          user.status === "Active"
+                            ? "bg-[#D1F8C3]"
+                            : "bg-[#FFA9A9]"
+                        }`}
+                      >
+                        {user.status}
+                      </span>
+                    </td>
+
+                    <td className="flex items-center gap-2 px-4 py-3">
+                      <button
+                        onClick={() => handleBlockUser(user)}
+                        className="transition hover:scale-110"
+                      >
+                        {user.status === "Active" ? (
+                          <MdBlockFlipped className="w-6 h-6 text-red-600" />
+                        ) : (
+                          <IoLockClosedOutline className="w-6 h-6 text-green-600" />
+                        )}
+                      </button>
+                      <button
+                        onClick={() => handleDeleteUser(user)}
+                        className="transition hover:scale-110"
+                      >
+                        <RiDeleteBin6Line className="w-6 h-6 text-red-600" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

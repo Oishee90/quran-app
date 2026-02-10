@@ -41,7 +41,7 @@ export default function UserManagementTable() {
       result = result.filter(
         (user) =>
           user.name.toLowerCase().includes(search.toLowerCase()) ||
-          user.email.toLowerCase().includes(search.toLowerCase())
+          user.email.toLowerCase().includes(search.toLowerCase()),
       );
     }
 
@@ -53,7 +53,7 @@ export default function UserManagementTable() {
   const startIndex = (currentPage - 1) * USERS_PER_PAGE;
   const paginatedUsers = filteredUsers.slice(
     startIndex,
-    startIndex + USERS_PER_PAGE
+    startIndex + USERS_PER_PAGE,
   );
 
   //  Reset page on filter/search change
@@ -68,6 +68,35 @@ export default function UserManagementTable() {
       </div>
     );
   }
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+      return pages;
+    }
+
+    if (currentPage <= 3) {
+      pages.push(1, 2, 3, "...", totalPages);
+    } else if (currentPage >= totalPages - 2) {
+      pages.push(1, "...", totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      pages.push(
+        1,
+        "...",
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        "...",
+        totalPages,
+      );
+    }
+
+    return pages;
+  };
 
   return (
     <div className="min-h-screen p-6 pippins bg-gray-50">
@@ -87,8 +116,8 @@ export default function UserManagementTable() {
             {status === "All"
               ? `All Users (${data?.total_users || 0})`
               : status === "Active"
-              ? `Active Users (${data?.active_users || 0})`
-              : `Blocked Users (${data?.blocked_users || 0})`}
+                ? `Active Users (${data?.active_users || 0})`
+                : `Blocked Users (${data?.blocked_users || 0})`}
           </button>
         ))}
       </div>
@@ -98,12 +127,12 @@ export default function UserManagementTable() {
         users={paginatedUsers}
         search={search}
         setSearch={setSearch}
-        refetch = {refetch}
+        refetch={refetch}
       />
 
       {/*  Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-end gap-2 mt-6">
+        <div className="flex flex-wrap items-center justify-end gap-2 mt-6">
           <button
             onClick={() => setCurrentPage((p) => p - 1)}
             disabled={currentPage === 1}
@@ -112,20 +141,26 @@ export default function UserManagementTable() {
             Prev
           </button>
 
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              className={`px-3 py-1 rounded-lg border
-                ${
-                  currentPage === index + 1
-                    ? "bg-[#2658C4] text-white border-[#2658C4]"
-                    : "bg-white"
-                }`}
-            >
-              {index + 1}
-            </button>
-          ))}
+          {getPageNumbers().map((page, index) =>
+            page === "..." ? (
+              <span key={index} className="px-2 text-gray-500">
+                ...
+              </span>
+            ) : (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(page)}
+                className={`px-3 py-1 rounded-lg border
+            ${
+              currentPage === page
+                ? "bg-[#2658C4] text-white border-[#2658C4]"
+                : "bg-white"
+            }`}
+              >
+                {page}
+              </button>
+            ),
+          )}
 
           <button
             onClick={() => setCurrentPage((p) => p + 1)}
